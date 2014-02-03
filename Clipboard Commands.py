@@ -10,23 +10,21 @@ def copy(data):
 # to transfer data to sublime text
 def clean_paste(data):
 	# clean word
-	data = unicode(data)
-	data = data.replace(u'”', '"').replace(u'“', '"').replace(u'’', "'")
+	data = data.replace('”', '"').replace('“', '"').replace('’', "'")
 	data = data.replace('________________________________________', '\n')
 	# clean htmlentities
-	import htmlentitydefs
-	data = re.sub('&([^;]+);', lambda m: unichr(htmlentitydefs.name2codepoint[m.group(1)]), data)
+	from html.parser import HTMLParser
+	data = HTMLParser().unescape(data)
 	return data;
 
 # to transfer data from sublime text
 def clean_copy(data):
 	# clean html
-	data = unicode(data)
-	data = re.sub(r'<br ?/?>', '\n', data, re.I);
-	data = re.sub(r'<[^>]*>', '', data);
+	data = re.sub('<br ?/?>', '\n', data, re.I);
+	data = re.sub('<[^>]*>', '', data);
 	# clean htmlentities
-	import htmlentitydefs
-	data = re.sub('&([^;]+);', lambda m: unichr(htmlentitydefs.name2codepoint[m.group(1)]), data)
+	from html.parser import HTMLParser
+	data = HTMLParser().unescape(data)
 	return data;
 
 # cut
