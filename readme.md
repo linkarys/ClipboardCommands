@@ -1,3 +1,5 @@
+***[Sublime Text 3+](http://www.sublimetext.com/) Package. Install via an updated version of  [Package Control 2+](https://sublime.wbond.net/installation). Just **DON'T** install manually.
+
 Description
 ------------------
 
@@ -12,11 +14,6 @@ To assign a new keybinding,
 ```
 , { "keys": ["ctrl+alt+v"], "command": "clipboard_commands_paste_plain_text" }
 ```
-
-Installation
-------------------
-
-Install this repository via "Package Control" http://wbond.net/sublime_packages/package_control
 
 Source-code
 ------------------
