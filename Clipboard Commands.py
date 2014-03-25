@@ -27,6 +27,12 @@ def clean_copy(data):
 	data = HTMLParser().unescape(data)
 	return data;
 
+# to transfer data from sublime text
+def clean_line_number(data):
+	# clean line number
+	data = re.sub('(^|(?<=\n))[^\S\n]*\d+[^\S\n](?=[^\n]+)', '', data);
+	return data;
+
 # cut
 
 class ClipboardCommandsCutAll(sublime_plugin.TextCommand):
@@ -62,3 +68,9 @@ class ClipboardCommandsPastePlainText(sublime_plugin.TextCommand):
 	def run(self, edit):
 		copy(clean_paste(clipboard()))
 		self.view.run_command('paste')
+
+class ClipboardCommandsPasteWithoutLineNumber(sublime_plugin.TextCommand):
+	def run(self, edit):
+		copy(clean_line_number(clipboard()))
+		self.view.run_command('paste')
+

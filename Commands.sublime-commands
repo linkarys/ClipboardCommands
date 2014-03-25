@@ -40,5 +40,9 @@
     {
         "caption": "Clipboard: Paste Plain Text",
         "command": "clipboard_commands_paste_plain_text"
+    },
+    {
+        "caption": "Clipboard: Paste without Line Number",
+        "command": "clipboard_commands_paste_without_line_number"
     }
 ]
