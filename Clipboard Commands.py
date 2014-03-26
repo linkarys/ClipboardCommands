@@ -1,5 +1,15 @@
 # coding=utf8
 import sublime_plugin, sublime, re
+from html.parser import HTMLParser
+
+class HTMLStripper(HTMLParser):
+	def __init__(self):
+		HTMLParser.__init__(self)
+		self.fed = []
+	def handle_data(self, d):
+		self.fed.append(d)
+	def get_data(self):
+		return ''.join(self.fed)
 
 def clipboard():
 	return sublime.get_clipboard()
@@ -13,9 +23,14 @@ def clean_paste(data):
 	data = data.replace('”', '"').replace('“', '"').replace('’', "'")
 	data = data.replace('________________________________________', '\n')
 	# clean htmlentities
-	from html.parser import HTMLParser
 	data = HTMLParser().unescape(data)
 	return data;
+
+def strip_html_tags(data):
+	s = HTMLStripper()
+	data = re.sub('<br ?/?>', '\n', data, re.I)
+	s.feed(data)
+	return s.get_data()
 
 # to transfer data from sublime text
 def clean_copy(data):
@@ -67,6 +82,11 @@ class ClipboardCommandsPasteInAll(sublime_plugin.TextCommand):
 class ClipboardCommandsPastePlainText(sublime_plugin.TextCommand):
 	def run(self, edit):
 		copy(clean_paste(clipboard()))
+		self.view.run_command('paste')
+
+class ClipboardCommandsPastePlainTextWithHtmlTagsStripOut(sublime_plugin.TextCommand):
+	def run(self, edit):
+		copy(strip_html_tags(clean_paste(clipboard())))
 		self.view.run_command('paste')
 
 class ClipboardCommandsPasteWithoutLineNumber(sublime_plugin.TextCommand):
